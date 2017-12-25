@@ -22,13 +22,13 @@ class BannerController extends BaseController
         $ins = new Banner();
         $ins->name = $request->get('name');
         $ins->picture = $request->get('picture');
-        $ins->is_show = $request->get('show', true);
-        $ins->coupon_id = $request->get('coupon_id');
-        $ins->carousel_time = $request->get('carousel_time', 2) + 0;
+        $ins->show = $request->get('show', true);
+        $ins->content = $request->get('content');
+        $ins->order = $request->get('order',0);
         try {
             $ins->save();
         } catch (\Exception $exception) {
-            return $this->response->errorInternal();
+            return $this->response->error($exception->getMessage(),500);
         }
 
         return $this->response->created();
@@ -49,16 +49,16 @@ class BannerController extends BaseController
         if(!$info)
             return $this->response->errorNotFound();
         $info->name = $request->get('name');
+        if($request->get('picture'))
         $info->picture = $request->get('picture');
-        $info->coupon_id = $request->get('coupon_id') + 0;
-        $info->is_show = $request->get('show');
-        $info->carousel_time = $request->get('carousel_time') + 0;
+        $info->show = $request->get('show');
+        $info->order = $request->get('order');
+        $info->content = $request->get('content','');
         try {
             $info->save();
         } catch (\Exception $exception) {
-            return $this->response->errorInternal();
+            return $this->response->error($exception->getMessage(),500);
         }
-
         return $this->response->noContent();
 
     }
@@ -83,13 +83,13 @@ class BannerController extends BaseController
         $info = Banner::find($id);
         if(!$info)
             return $this->response->errorNotFound();
-        $info->is_show = boolval($request->get('show'));
+        $info->show = !$info->show;
         try {
             $info->save();
         } catch (\Exception $exception) {
-            return $this->response->errorInternal();
+            return $this->response->error($exception->getMessage(),500);
         }
 
-        return $this->response->noContent();
+        return $this->returnData(['show'=>$info->show]);
     }
 }

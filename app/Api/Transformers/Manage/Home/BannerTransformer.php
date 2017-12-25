@@ -13,7 +13,7 @@ class BannerTransformer extends BaseTransformer
             'id'         => $banner->id,
             'name'       => $banner->name,
             'picture'    => get_upload_url(array_get($banner->getAttributes(), 'picture')),
-            'show'       => boolval($banner->is_show),
+            'show'       => boolval($banner->show),
             'created_at' => $banner->created_at . '',
         ];
     }
@@ -23,11 +23,11 @@ class BannerTransformer extends BaseTransformer
         return [
             'id'            => $banner->id,
             'name'          => $banner->name,
-            'picture'       => array_get($banner->getAttributes(), 'picture'),
-            'picture_url'   => get_upload_url(array_get($banner->getAttributes(), 'picture')),
-            'show'          => boolval($banner->is_show),
-            'coupon_id'     => $banner->coupon_id,
-            'carousel_time' => $banner->carousel_time,
+            'content'       => $banner->content,
+            'order'       => $banner->order,
+            'picture'       => $banner->picture,
+            'picture_url'   => get_upload_url($banner->picture),
+            'show'          => boolval($banner->show),
         ];
     }
 

@@ -10,10 +10,7 @@ class BannerRequest extends BaseRequest
     {
         $commons = [
             'name'          => 'required|max:20',
-            'picture'       => 'required|max:255',
-            'show'       => 'required|boolean',
-            'coupon_id'     => 'required|exists:coupons,id',
-            'carousel_time' => 'nullable|integer',
+            'content'       => 'required',
         ];
 
         return array_merge($commons, $more);
@@ -21,12 +18,17 @@ class BannerRequest extends BaseRequest
 
     public function storeRules()
     {
-        return $this->getCommon([]);
+        return $this->getCommon([
+            'picture'       => 'required|max:255',
+        ]);
     }
 
     public function updateRules()
     {
-        return $this->getCommon([]);
+        return $this->getCommon([
+            'show' => 'required|boolean',
+            'order' => 'required',
+        ]);
     }
 
     public function messages()

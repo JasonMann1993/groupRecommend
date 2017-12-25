@@ -8,4 +8,10 @@ class BaseController extends Controller
 {
     use Helpers,\Dingo\Api\Routing\Helpers;
 
+    public function returnData(Array $data)
+    {
+        return [
+            'data'=>$data
+        ];
+    }
 }

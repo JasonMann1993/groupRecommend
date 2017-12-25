@@ -11,21 +11,13 @@ class MemberTransformer extends BaseTransformer
 {
     public function trans(Member $member)
     {
-        $recommendInfo = $member->parentUser();
-
         return [
             'id'         => $member->id,
-            'name'       => $member->nickname,
+            'name'       => $member->name,
             'avatar'     => $member->avatar,
-            'status'     => ['bool'  => true,
-                             'value' => boolval($member->status),
-                             'text'  => $member->statusText
-            ],
-            'block'      => boolval($member->defriend),
-            'recommends' => [
-                'name' => $recommendInfo ? $recommendInfo->nickname ?: $recommendInfo->name : '-',
-                'id'   => $recommendInfo ? $recommendInfo->id : '-',
-            ]
+            'group'     =>explode(',',$member->group)[0],
+            'address'   =>$member->address,
+            'type'     => $member->typeText[$member->type],
         ];
     }
 

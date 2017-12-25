@@ -20,22 +20,16 @@ class MenuSeeder extends Seeder
          */
         $menus = [
             ['name' => '首页', 'url' => '/', 'icon' => 'fa-home'],
-            ['name' => '用户管理', 'icon' => 'fa-user', 'url' => '/user'],
             ['name' => 'Banner管理', 'url' => '/home/banner', 'icon' => 'fa-picture-o'],
+            ['name' => '用户管理','url' => '/user' ,'icon' => 'fa-user'],
+            ['name' => '微信群管理','url' => '/group' ,'icon' => 'fa-users'],
+            ['name' => '商家管理','url' => '/business' ,'icon' => 'fa-user-circle'],
+
         ];
         Menu::truncate();
-        $this->cleanRoleMenus();
         $this->saveMenus($menus);
-//        $this->giveDeveloperRoleAllMenu();
 
     }
-
-    protected function cleanRoleMenus()
-    {
-        foreach (Role::all() as $role)
-            $role->menus()->sync([]);
-    }
-
     /**
      * @param $menus
      */
@@ -44,34 +38,11 @@ class MenuSeeder extends Seeder
         foreach ($menus as $key => $item) {
             $menuIns = new Menu();
             foreach ($item as $field => $value) {
-                if($field != 'child' && $field != 'role')
                     $menuIns->$field = $value;
             }
             $menuIns->parent_id = $parentId;
             $menuIns->save();
-            if($role = array_get($item, 'role'))
-                $this->addRole($menuIns, $role);
-            else
-                $this->addRole($menuIns, 'developer');
-
-            if(isset($item['child']) && !empty($item['child']))
-                $this->saveMenus($item['child'], $menuIns->id);
         }
-    }
-
-    protected function giveDeveloperRoleAllMenu()
-    {
-        # add Developer
-        $developer = Role::where('name', 'developer')->first();
-        if($developer) {
-            $developer->menus()->sync(Menu::all()->pluck('id'));
-        }
-    }
-
-    protected function addRole(Menu $menu, $role)
-    {
-        $role = Role::findByName($role);
-        $role->menus()->attach($menu->id);
     }
 
 }

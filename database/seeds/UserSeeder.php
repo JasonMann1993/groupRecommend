@@ -19,20 +19,16 @@ class UserSeeder extends Seeder
     protected function makeDevelopUser()
     {
         $developUserPhone = '13800138000';
-        $developUserPassword = '123456';
+        $developUserPassword = encrypt('123456');
         $developUserName = '开发者';
         if(!User::where('phone', $developUserPhone)->first()) {
             $userIns = new User();
             $userIns->phone = $developUserPhone;
             $userIns->name = $developUserName;
             $userIns->password = $developUserPassword;
-            $userIns->accountnumber = '';
-            $userIns->codeurl = '';
             $userIns->save();
-            $userIns->assignRole('developer');
+//            $userIns->assignRole('developer');
         }
-         # factory(App\Models\User::class,101)->create();
-//         factory(App\Models\User::class,101)->create();
     }
 
 }

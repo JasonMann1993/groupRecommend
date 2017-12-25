@@ -5,7 +5,8 @@ namespace App\Api\TransFormers\Manage\Home;
 use App\Api\TransFormers\Manage\BaseTransformer;
 use App\Models\Menu;
 
-class MenuTransformer extends BaseTransformer
+class
+MenuTransformer extends BaseTransformer
 {
     public function trans(Menu $menu)
     {

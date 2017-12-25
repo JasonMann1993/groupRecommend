@@ -25,13 +25,10 @@ $api->version('v1', ['prefix' => '/api/manage', 'namespace' => 'App\Api\Controll
             $api->get('token_refresh','CommonController@tokenRefresh');
             # /manage/user
             $api->group(['prefix' => 'user'], function ($api) {
+                #微信用户
                 $api->resource('member', 'MemberController');
+                #拉黑
                 $api->patch('member/{id}/block', 'MemberController@upBlock');
-
-                # Partner
-                $api->resource('partner', 'PartnerController');
-                $api->patch('partner/{id}/block', 'PartnerController@upBlock');
-
                 # User Info
                 $api->get('info', 'CommonController@info');
 
@@ -42,16 +39,13 @@ $api->version('v1', ['prefix' => '/api/manage', 'namespace' => 'App\Api\Controll
         $api->group(['namespace' => 'Home'], function ($api) {
             $api->get('menus', 'CommonController@menus');
             $api->get('map_key', 'CommonController@mapKey');
-            # set global argument
-            $api->get('argument', 'CommonController@getArgu');
-            $api->put('argument', 'CommonController@setArgu');
-
 
             # /manage/home
             $api->group(['prefix' => 'home'], function ($api) {
                 $api->get('menu', 'MenuController@lists');
 
                 $api->resource('banner', 'BannerController');
+                #改变状态
                 $api->patch('banner/{id}/show', 'BannerController@upShow');
 
             });

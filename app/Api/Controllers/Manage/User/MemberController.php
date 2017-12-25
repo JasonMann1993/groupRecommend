@@ -20,17 +20,15 @@ class MemberController extends BaseController
     public function index(MemberRequest $request)
     {
         $keyword = $request->get('keyword');
-        $type = $request->get('type') + 0;
         $members = Member::query()
-            ->where('status', $type)
             ->where(function ($query) use ($keyword) {
-                if($keyword)  # Search for keyword
-                    $query->where('id', 'like', "%{$keyword}%")
-                        ->orWhere('openid', 'like', "%{$keyword}%")
-                        ->orWhere('nickname', 'like', "%{$keyword}%");
+                if(is_numeric($keyword)){
+                    $query->where('id',$keyword);
+                }elseif($keyword){
+                    $query->where('name','like','%'.$keyword.'%');
+                }
             })
             ->latest()->paginate(10);
-
         return $this->response->paginator($members, new MemberTransformer());
     }
 
@@ -64,18 +62,6 @@ class MemberController extends BaseController
         $user = Member::where('id', $id)->first();
         if(!$user)
             return $this->response->errorNotFound();
-        # 制券奖励
-        $user->manufacture_money = $request->get('reward_make_for_re_shop'); # 商家推荐人
-        $user->manufacture_shop_money = $request->get('reward_make_for_shop'); # 商家
-        # 核销扣款
-        $user->reward_cut_use_for_shop = $request->get('reward_cut_use_for_shop');  # 商家
-        # 核销奖励
-        $user->write_off_member_recommend_money = $request->get('reward_use_for_re_user'); # 用户推荐人
-        $user->write_off_shop_recommend_money = $request->get('reward_use_for_re_shop'); # 商家推荐人
-        $user->member_recommend_money = $request->get('reward_use_for_user'); # 用户
-        $user->shop_write_off_money = $request->get('reward_use_for_shop'); # 商家
-        # 制券扣款
-        $user->voucher_system_money = $request->get('cut_make_for_shop'); # 商家
 
         foreach ($user->getAttributes() as $key => $value) {
             if(array_key_exists($key, $user->argus))

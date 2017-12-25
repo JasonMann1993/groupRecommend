@@ -12,13 +12,13 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Member::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->userName,
-        'openid' => str_random(28),
-        'gender' => random_int(1, 3),
         'avatar' => $faker->imageUrl(),
-        'city' => $faker->city
+        'type' => 1,
+        'group'=>$faker->userName,
+        'address' => $faker->address,
+        'active'=>1,
     ];
 });
-

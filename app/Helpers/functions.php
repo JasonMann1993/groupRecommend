@@ -208,6 +208,8 @@ function resource_url($url)
 
 function get_upload_url($file)
 {
+    if(filter_var($file,FILTER_VALIDATE_URL))
+        return $file;
     static $storage;
     if(!$storage)
         $storage = \Storage::disk('oss');
