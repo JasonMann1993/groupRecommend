@@ -33,6 +33,7 @@ class GroupTransformer extends BaseTransformer
         }
         return [
             'id'=>$group->id,
+            'master'=>$group->master,
             'name'=>$group->name,
             'desc'=>$group->desc,
             'address'=>$group->address,
