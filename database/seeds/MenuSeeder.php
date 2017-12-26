@@ -21,9 +21,9 @@ class MenuSeeder extends Seeder
         $menus = [
             ['name' => '首页', 'url' => '/', 'icon' => 'fa-home'],
             ['name' => 'Banner管理', 'url' => '/home/banner', 'icon' => 'fa-picture-o'],
-            ['name' => '用户管理','url' => '/user' ,'icon' => 'fa-user'],
-            ['name' => '微信群管理','url' => '/group' ,'icon' => 'fa-users'],
-            ['name' => '商家管理','url' => '/business' ,'icon' => 'fa-user-circle'],
+            ['name' => '用户管理','url' => '/user/member' ,'icon' => 'fa-user'],
+            ['name' => '微信群管理','url' => '/user/group' ,'icon' => 'fa-users'],
+            ['name' => '商家管理','url' => '/user/business' ,'icon' => 'fa-user-circle'],
 
         ];
         Menu::truncate();

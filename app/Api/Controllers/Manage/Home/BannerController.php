@@ -12,7 +12,7 @@ class BannerController extends BaseController
 
     public function index()
     {
-        $lists = Banner::query()->paginate(10);
+        $lists = Banner::query()->orderBy('order')->paginate(10);
 
         return $this->response->paginator($lists, new BannerTransformer());
     }

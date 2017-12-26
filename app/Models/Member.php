@@ -13,4 +13,20 @@ class Member extends Model
         1 => '用户',
         2 => '商家',
     ];
+
+    public function businesses()
+    {
+        return $this->hasMany(Business::class);
+    }
+
+    public function destroyBusiness()
+    {
+        $businesses = $this->businesses;
+        if(count($businesses)>0){
+            foreach($businesses as $business){
+                $business->groups()->sync([]);
+                $business->delete();
+            }
+        }
+    }
 }

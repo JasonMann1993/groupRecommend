@@ -1,0 +1,74 @@
+.el-form{
+    .el-form-item__label{
+        color: $col-text;
+    }
+    .el-input__inner{
+        border-color: $col-input-border;
+    }
+}
+.el-form--inline{
+    .el-form-item__content{
+        width: 16rem;
+    }
+}
+.el-button{
+    //color: $col-text;
+    //border-color: $col-input-border;
+}
+
+.el-card{
+    .el-card__header{
+        h1,h2,h3,h4,h5,h6{
+            margin: 0;
+        }
+        span{
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+    }
+    .title{
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+}
+.page-info{
+    .el-row{
+        line-height: 4;
+        border-bottom: 1px solid #f3f6fb;
+        &:last-child{
+            border-bottom: none;
+        }
+    }
+    label{
+        font-size: 1rem;
+        font-weight: bold;
+        margin-right:1rem;
+    }
+}
+
+// Page
+.user-avatar{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.center {
+    text-align: center;
+}
+
+
+// FontAwesome
+i[class^="el-icon-fa"], i[class*=" el-icon-fa"] {
+    font-family:"FontAwesome" !important;
+    display: inline-block;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+$fa-font-path: "~font-awesome/fonts";
+$fa-css-prefix: "el-icon-fa";
+
+@import "~font-awesome/scss/font-awesome.scss";

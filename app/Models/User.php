@@ -11,4 +11,10 @@ class User extends Authenticatable
     //
     use HasRoles;
     use SoftDeletes;
+
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = encrypt($password);
+    }
+
 }
