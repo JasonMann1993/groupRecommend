@@ -47,7 +47,7 @@ class GroupTransformer extends BaseTransformer
             'latitude'=>$group->latitude,
             'longitude'=>$group->longitude,
             'wx'=>$group->wx,
-            'ids'=>$pivotBusinessId,
+            'business_ids'=>$pivotBusinessId,
             'businesses'=>$businessInfo,
             'logo'=>$group->logo,
             'logo_url'=>get_upload_url($group->logo),
