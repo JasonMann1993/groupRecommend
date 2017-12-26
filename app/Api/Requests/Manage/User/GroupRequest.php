@@ -16,6 +16,7 @@ class GroupRequest extends BaseRequest
     public function storeRules()
     {
         return [
+            'master'=>'required',
             'name'=>'required',
             'desc'=>'required',
             'address'=>'required',
@@ -33,6 +34,7 @@ class GroupRequest extends BaseRequest
     public function updateRules()
     {
         return [
+            'master'=>'required',
             'name'=>'required',
             'desc'=>'required',
             'address'=>'required',

@@ -29,4 +29,9 @@ class Member extends Model
             }
         }
     }
+
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class,'member_groups','member_id','group_id');
+    }
 }

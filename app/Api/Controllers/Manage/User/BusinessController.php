@@ -67,6 +67,8 @@ class BusinessController extends BaseController
         $info->name = $request->get('name');
         $info->desc = $request->get('desc');
         $info->address = $request->get('address');
+        $info->latitude = $request->get('latitude');
+        $info->longitude = $request->get('longitude');
         $info->talk = $request->get('talk');
         $info->star = $request->get('star');
         $info->member_id = $request->get('member_id');

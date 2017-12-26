@@ -6,6 +6,7 @@ namespace App\Api\Controllers\Manage\User;
 use App\Api\Controllers\Manage\BaseController;
 use App\Api\Requests\Manage\User\MemberRequest;
 use App\Api\TransFormers\Manage\User\MemberTransformer;
+use App\Models\Group;
 use App\Models\Member;
 
 class MemberController extends BaseController
@@ -62,15 +63,23 @@ class MemberController extends BaseController
         $user = Member::where('id', $id)->first();
         if(!$user)
             return $this->response->errorNotFound();
-
+        $group = $request->get('group');
+        foreach($group as $value){
+            if(!Group::find($value)){
+                return $this->response->error('id为'.$value.'的群不存在',422);
+            }
+        }
+        $user->name = $request->get('name');
         $user->type = $request->get('type');
         $user->address = $request->get('address');
-        $user->group = $request->get('group');
+        $user->latitude = $request->get('latitude');
+        $user->longitude = $request->get('longitude');
         $user->active = $request->get('active');
         $user->block = $request->get('block');
         $user->order = $request->get('order');
         try {
             $user->save();
+            $user->groups()->sync($group);
         } catch (\Exception $exception) {
             return $this->response->error($exception->getMessage(),500);
         }

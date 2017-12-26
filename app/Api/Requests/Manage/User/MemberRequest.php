@@ -17,9 +17,12 @@ class MemberRequest extends BaseRequest
     public function updateRules()
     {
         return [
+            'name'=>'required',
             'type'=>['required',Rule::in(1,2)],
             'address'=>'required',
-            'group'=>'required',
+            'latitude'=>'required|numeric',
+            'longitude'=>'required|numeric',
+            'group'=>'required|array',
             'active'=>'required',
             'order'=>'required',
             'block'=>'required|boolean',
