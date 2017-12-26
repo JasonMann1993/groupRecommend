@@ -19,6 +19,8 @@ class InfoTransformer extends TransformerAbstract
             'wxname' => $item->master,
             'qr_code' => getImgAttribute($item->qr_code),
         ];
+        ## 入驻商户
+        $info['business'] = [];
         if($item->businesses){
             foreach ($item->businesses as $v){
                 $info['business'][] = [
@@ -26,6 +28,8 @@ class InfoTransformer extends TransformerAbstract
                 ];
             }
         }
+        ## 群组成员
+        $info['members'] = [];
         if($item->members){
             foreach ($item->members as $v) {
                 $info['members'][] = [
