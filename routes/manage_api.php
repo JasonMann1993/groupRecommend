@@ -37,6 +37,7 @@ $api->version('v1', ['prefix' => '/api/manage', 'namespace' => 'App\Api\Controll
                 $api->resource('group','GroupController');
                 #商家
                 $api->patch('business/lists','BusinessController@lists');
+                $api->patch('business/search','BusinessController@search');
                 $api->resource('business','BusinessController');
 
             });

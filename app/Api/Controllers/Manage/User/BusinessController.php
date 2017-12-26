@@ -111,4 +111,11 @@ class BusinessController extends BaseController
             $lists = Business::latest()->get();
             return $this->response->collection($lists,new BusinessTransformer('lists'));
     }
+
+    public function search(BusinessRequest $request)
+    {
+        $keyword = $request->get('keyword');
+        $lists = Business::where('name','like','%'.$keyword.'%')->get();
+        return $this->response->collection($lists,new businessTransformer('lists'));
+    }
 }
