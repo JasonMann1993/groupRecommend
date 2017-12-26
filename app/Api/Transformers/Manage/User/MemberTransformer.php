@@ -24,7 +24,7 @@ class MemberTransformer extends BaseTransformer
         $groups = [];
         if($member->groups){
             foreach($member->groups as $group){
-                $groups[] = $group['id'];
+                $groups[$group['id']] = $group['name'];
             }
         }
         return [
