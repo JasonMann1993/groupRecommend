@@ -32,4 +32,11 @@ class IndexRequest extends FormRequest
         ];
     }
 
+    public function infoRules()
+    {
+        return [
+
+        ];
+    }
+
 }

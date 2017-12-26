@@ -13,8 +13,8 @@ class BannerTransformer extends TransformerAbstract
         $info = [
             'id' => $item->id,
             'name' => $item->name,
-            'imgurl' => $item->picture,
-            'content' => $item->content,
+            'imgurl' => getImgAttribute($item->picture),
+            //'content' => $item->content,
         ];
         return $info;
     }
