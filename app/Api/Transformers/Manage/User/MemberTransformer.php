@@ -22,9 +22,11 @@ class MemberTransformer extends BaseTransformer
     public function transInfo(Member $member)
     {
         $groups = [];
+        $groupId = [];
         if($member->groups){
             foreach($member->groups as $group){
                 $groups[$group['id']] = $group['name'];
+                $groupId[] = $group['id'];
             }
         }
         return [
@@ -38,6 +40,7 @@ class MemberTransformer extends BaseTransformer
             'active'                    => $member->active,
             'order'                    => $member->order,
             'block'                    => boolval($member->block),
+            'group_id'                 => $groupId,
         ];
     }
 
