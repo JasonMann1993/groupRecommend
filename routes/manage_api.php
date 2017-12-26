@@ -32,6 +32,13 @@ $api->version('v1', ['prefix' => '/api/manage', 'namespace' => 'App\Api\Controll
                 # User Info
                 $api->get('info', 'CommonController@info');
 
+                #群管理
+                $api->patch('group/search','GroupController@search');
+                $api->resource('group','GroupController');
+                #商家
+                $api->patch('business/lists','BusinessController@lists');
+                $api->resource('business','BusinessController');
+
             });
         });
 

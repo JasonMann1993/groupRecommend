@@ -28,7 +28,7 @@ class MemberController extends BaseController
                     $query->where('name','like','%'.$keyword.'%');
                 }
             })
-            ->latest()->paginate(10);
+            ->latest()->orderBy('order')->paginate(10);
         return $this->response->paginator($members, new MemberTransformer());
     }
 
@@ -63,16 +63,16 @@ class MemberController extends BaseController
         if(!$user)
             return $this->response->errorNotFound();
 
-        foreach ($user->getAttributes() as $key => $value) {
-            if(array_key_exists($key, $user->argus))
-                if($value === '')
-                    $user->$key = null;
-        }
-
+        $user->type = $request->get('type');
+        $user->address = $request->get('address');
+        $user->group = $request->get('group');
+        $user->active = $request->get('active');
+        $user->block = $request->get('block');
+        $user->order = $request->get('order');
         try {
             $user->save();
         } catch (\Exception $exception) {
-            return $this->response->errorInternal();
+            return $this->response->error($exception->getMessage(),500);
         }
 
         return $this->response->noContent();
@@ -91,11 +91,17 @@ class MemberController extends BaseController
         $user = Member::where('id', $id)->first();
         if(!$user)
             return $this->response->errorNotFound();
+        \DB::beginTransaction();
         try {
+            if($user->type=2){
+                $user->destroyBusiness();
+            }
             $user->delete();
         } catch (\Exception $exception) {
-            return $this->response->errorInternal();
+            \DB::rollback();
+            return $this->response->error($exception->getMessage(),500);
         }
+        \DB::commit();
 
         return $this->response->noContent();
     }
