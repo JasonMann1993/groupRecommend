@@ -20,6 +20,8 @@ class BusinessRequest extends BaseRequest
             'name'=>'required',
             'desc'=>'required',
             'address'=>'required',
+            'latitude'=>'required|numeric',
+            'longitude'=>'required|numeric',
             'talk'=>['required',Rule::in(1,2)],
             'member_id'=>['required',
                     Rule::exists('members','id')->where(function($query){
@@ -38,6 +40,8 @@ class BusinessRequest extends BaseRequest
             'name'=>'required',
             'desc'=>'required',
             'address'=>'required',
+            'latitude'=>'required|numeric',
+            'longitude'=>'required|numeric',
             'talk'=>['required',Rule::in(1,2)],
             'member_id'=>['required',
                 Rule::exists('members','id')->where(function($query){

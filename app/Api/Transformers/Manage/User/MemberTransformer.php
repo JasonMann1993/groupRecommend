@@ -4,8 +4,6 @@ namespace App\Api\TransFormers\Manage\User;
 
 use App\Api\TransFormers\Manage\BaseTransformer;
 use App\Models\Member;
-use App\Models\Menu;
-use App\Models\User;
 
 class MemberTransformer extends BaseTransformer
 {
@@ -15,7 +13,7 @@ class MemberTransformer extends BaseTransformer
             'id'         => $member->id,
             'name'       => $member->name,
             'avatar'     => get_upload_url($member->avatar),
-            'group'     =>explode(',',$member->group)[0],
+            'group'     =>$member->groups?$member->groups()->first()['name']:'',
             'address'   =>$member->address,
             'type'     => $member->typeText[$member->type],
         ];
@@ -23,12 +21,20 @@ class MemberTransformer extends BaseTransformer
 
     public function transInfo(Member $member)
     {
+        $groups = [];
+        if($member->groups){
+            foreach($member->groups as $group){
+                $groups[] = $group['id'];
+            }
+        }
         return [
             'id'                      => $member->id,
             'name'                    => $member->name,
             'type'                    => $member->type,
             'address'                    => $member->address,
-            'group'                    => $member->group,
+            'latitude'                => $member->latitude,
+            'longitude'                => $member->longitude,
+            'group'                    => $groups,
             'active'                    => $member->active,
             'order'                    => $member->order,
             'block'                    => boolval($member->block),

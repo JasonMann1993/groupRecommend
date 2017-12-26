@@ -35,6 +35,8 @@ class BusinessTransformer extends BaseTransformer
             'logo_url'=>get_upload_url($business->logo),
             'desc'=>$business->desc,
             'address'=>$business->address,
+            'latitude'=>$business->latitude,
+            'longitude'=>$business->longitude,
             'talk'=>$business->talk,
             'star'=>$business->star,
             'member_id'=>$business->member_id,
