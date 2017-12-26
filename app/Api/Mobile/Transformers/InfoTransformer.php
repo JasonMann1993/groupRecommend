@@ -13,6 +13,7 @@ class InfoTransformer extends TransformerAbstract
         $info = [
             'id' => $item->id,
             'name' => $item->name,
+            'desc' => $item->desc,
             'logo' => getImgAttribute($item->logo),
             'wx' => $item->wx,
             'wxname' => $item->master,
