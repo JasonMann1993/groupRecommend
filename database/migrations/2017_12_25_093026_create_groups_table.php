@@ -19,8 +19,8 @@ class CreateGroupsTable extends Migration
             $table->string('logo')->default('')->comment('logo');
             $table->string('desc')->default('')->comment('群聊描述');
             $table->string('address')->default('')->comment('地址');
-            $table->double('latitude',10,6)->nullable()->comment('纬度');
-            $table->double('longitude',10,6)->nullable()->comment('经度');
+            $table->double('latitude', 10, 6)->nullable()->comment('纬度');
+            $table->double('longitude', 10, 6)->nullable()->comment('经度');
             $table->string('wx')->default('')->comment('群主微信');
             $table->string('qr_code')->default('')->comment('二维码');
             $table->integer('order')->default(0)->comment('排序');
