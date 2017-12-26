@@ -13,6 +13,7 @@ class IndexTransformer extends TransformerAbstract
         $info = [
             'id' => $item->id,
             'name' => $item->name,
+            'desc' => $item->desc,
             'logo' => getImgAttribute($item->logo),
             'distance' => $item->distance,
         ];

@@ -15,6 +15,7 @@ class InfoTransformer extends TransformerAbstract
             'name' => $item->name,
             'logo' => getImgAttribute($item->logo),
             'wx' => $item->wx,
+            'wxname' => $item->master,
             'qr_code' => getImgAttribute($item->qr_code),
         ];
         if($item->businesses){
@@ -24,6 +25,14 @@ class InfoTransformer extends TransformerAbstract
                 ];
             }
         }
+        if($item->members){
+            foreach ($item->members as $v) {
+                $info['members'][] = [
+                    'nickname' => $v->name
+                ];
+            }
+        }
+        $info['memberNum'] = $item->members->count();
         return $info;
     }
 }
