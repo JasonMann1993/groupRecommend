@@ -16,11 +16,9 @@ $api = app('Dingo\Api\Routing\Router');
 
 
 
-$api->version('v1', ['prefix' => '/api', 'namespace' => 'App\Api\Controllers'], function ($api) {
+$api->version('v1', ['prefix' => '/api', 'namespace' => 'App\Api\Mobile\Controllers'], function ($api) {
 
-    $api->get('test', function () {
-        echo 'test';
-    });
-  
+    $api->get('banner', 'BannerController@index');
+    $api->get('index', 'IndexController@index');
 
 });

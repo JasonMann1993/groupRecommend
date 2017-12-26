@@ -218,3 +218,21 @@ function get_upload_url($file)
 
     return $storage->url(config('filesystems.disks.oss.prefix') . '/' . $file);
 }
+
+function getImgAttribute($img)
+{
+    if (!filter_var($img, FILTER_VALIDATE_URL))
+        return env('OSS_ENDPOINT') . env('OSS_PREFIX') . $img;
+    return $img;
+}
+
+function C($key, $isvalue, $default = null)
+{
+    static $configs;
+    if(!$configs) {
+        $lists = \App\Models\Config::latest('id')->get();
+        $configs = $lists->keyBy('key');
+    }
+    $config = $configs->get($key);
+    return $config ? ($isvalue ? $config->value : $config) : $default;
+}
