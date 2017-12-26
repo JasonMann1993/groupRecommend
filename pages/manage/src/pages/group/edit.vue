@@ -1,34 +1,38 @@
 <template>
     <div>
-        <el-form ref="form" :rules="rules" :model="post" label-width="80px" v-loading="pageLoading">
-            <el-form-item label="昵称" prop="name">
+        <el-form ref="form" :rules="rules" :model="post" label-width="120px" v-loading="pageLoading">
+            <el-form-item label="群聊名称" prop="name">
                 <el-input v-model="post.name"></el-input>
             </el-form-item>
-            <el-form-item label="用户身份" prop="type">
-                <el-select v-model="post.type" placeholder="请选择">
-                    <el-option v-for="(type, key) in typeText" :key="key" :label="type" :value="parseInt(key)"></el-option>
-                </el-select>
+            <el-form-item label="群聊描述" prop="name">
+                <el-input v-model="post.desc"></el-input>
             </el-form-item>
-            <el-form-item label="用户地址" prop="address" v-if="post.address && mapKey && mapUrl">
+            <el-form-item label="群聊地址" prop="address" v-if="post.address && mapKey && mapUrl">
                 <el-input v-model="post.address" disabled=""></el-input>
                 <iframe allow="geolocation" width="100%" height="600" frameborder="0" :src="mapUrl">
                 </iframe>
             </el-form-item>
-            <el-form-item label="所在群聊" prop="phone">
-                <el-select v-model="post.group" multiple filterable remote reserve-keyword placeholder="请输入关键词"
-                           :remote-method="searchGroup"
-                           :loading="searchGroupLoading">
-                    <el-option v-for="group in groupLists" :key="group.id" :label="group.name" :value="group.id"></el-option>
+            <el-form-item label="群主微信昵称" prop="name">
+                <el-input v-model="post.master"></el-input>
+            </el-form-item>
+            <el-form-item label="群主微信号" prop="name">
+                <el-input v-model="post.wx"></el-input>
+            </el-form-item>
+            <el-form-item label="入驻商家" prop="phone">
+                <el-select v-model="post.business_ids" multiple filterable remote reserve-keyword placeholder="请输入关键词"
+                           :remote-method="searchShop"
+                           :loading="searchShopLoading">
+                    <el-option v-for="shop in shopLists" :key="shop.id" :label="shop.name" :value="shop.id"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="活跃星级" prop="active">
-                <el-rate v-model="post.active" style="margin-top: 10px;"></el-rate>
+            <el-form-item label="LOGO" prop="logo">
+                <upload @success="uploadSuccess" @remove="uploadRemove" :files="post.logo"></upload>
+            </el-form-item>
+            <el-form-item label="二维码" prop="picture">
+                <upload @success="uploadSuccessQrCode" @remove="uploadRemoveQrCode" :files="post.qr_code"></upload>
             </el-form-item>
             <el-form-item label="排序" prop="order">
                 <el-input type="number" v-model="post.order"></el-input>
-            </el-form-item>
-            <el-form-item label="拉黑" prop="block">
-                <el-switch v-model="post.block"></el-switch>
             </el-form-item>
         </el-form>
         <div slot="footer" class="center">
@@ -57,8 +61,8 @@
                 },
                 buttonLoading: false,
                 pageLoading: false,
-                searchGroupLoading: false,
-                groupLists: [],
+                searchShopLoading: false,
+                shopLists: [],
                 mapKey: null,
                 address: {}
             }
@@ -87,10 +91,10 @@
             },
             getInfo() {
                 this.pageLoading = true
-                this.$request.get(this.$url.user.member + '/' + this.id).then(res => {
+                this.$request.get(this.$url.home.group + '/' + this.id).then(res => {
                     this.pageLoading = false
                     this.post = res.data.data
-                    this.groupLists = this.post.group_id
+                    this.shopLists = this.post.businesses
                     this.address = {
                         latitude: res.data.data.latitude,
                         longitude: res.data.data.longitude
@@ -102,7 +106,7 @@
             onSubmit() {
                 this.doValidate(() => {
                     this.buttonLoading = true
-                    this.$request.put(this.$url.user.member + '/' + this.id, this.post).then(res => {
+                    this.$request.put(this.$url.home.group + '/' + this.id, this.post).then(res => {
                         this.buttonLoading = false
                         this.$notify({title: '编辑成功', type: 'success'});
 
@@ -131,13 +135,13 @@
                     }
                 }, false);
             },
-            searchGroup(query) {
-                this.searchGroupLoading = true;
-                this.$request.get(this.$url.home.group_search, {params: {keyword: query}}).then(res => {
-                    this.searchGroupLoading = false
-                    this.groupLists = res.data.data
+            searchShop(query) {
+                this.searchShopLoading = true;
+                this.$request.get(this.$url.home.shop_search, {params: {keyword: query}}).then(res => {
+                    this.searchShopLoading = false
+                    this.shopLists = res.data.data
                 }).catch(error => {
-                    this.searchGroupLoading = false
+                    this.searchShopLoading = false
                 });
             },
             doValidate(callback) {
@@ -149,6 +153,18 @@
             },
             async doResetForm() {
                 await this.$refs['form'].resetFields();
+            },
+            uploadSuccess(res) {
+                this.post.logo = res.file
+            },
+            uploadRemove(res) {
+                this.post.logo = null
+            },
+            uploadSuccessQrCode(res) {
+                this.post.qr_code = res.file
+            },
+            uploadRemoveQrCode(res) {
+                this.post.qr_code = null
             }
         }
     }

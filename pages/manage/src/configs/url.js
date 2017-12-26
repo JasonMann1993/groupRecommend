@@ -15,14 +15,11 @@ const api = {
         menu: '/manage/home/menu',
         banner: '/manage/home/banner',
         upload: env.API_BASE_URL + '/manage/upload',
-        argument: '/argument',
+        group: '/manage/user/group',
+        group_search: '/manage/user/group/search',
+        shop_search: '/manage/user/business/search',
 
-        log: {
-            top_up: '/log/top_up',
-            buy: '/log/buy',
-            payoff: '/log/payoff'
-        },
-        map_key: '/map_key'
+        map_key: '/manage/map_key'
     },
     /*
      * register to vue
