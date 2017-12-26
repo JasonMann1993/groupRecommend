@@ -74,8 +74,6 @@ class MakeSupperUser extends Command
         if($type == 'add') {
             $userIns->name = $userName;
             $userIns->phone = $userPhone;
-            $userIns->accountnumber = '';
-            $userIns->codeurl = '';
         }
         $userIns->password = $password;
         \DB::beginTransaction();

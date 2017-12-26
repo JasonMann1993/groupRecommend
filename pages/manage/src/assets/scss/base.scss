@@ -1,0 +1,57 @@
+@import "main";
+html,body{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+}
+body{
+    background: $col-body;
+    #content{
+        height: 100%;
+        #content-main{
+            height: 100%;
+            #content-body{
+                //background: $col-main;
+                margin: 2rem;
+                padding: 0;
+
+
+            }
+        }
+    }
+}
+
+
+body{
+    // Page Info
+    .page-infos{
+        display: flow-root;
+        margin-bottom: 1rem;
+        .title{
+            float: left;
+        }
+        ul{
+            list-style: none;
+            float: right;
+        }
+        &:after{
+            clear: both;
+            content: "";
+            display: block;
+        }
+    }
+
+    // Table Pages
+    .table-pages{
+        margin: 2rem 1rem 1rem;
+        float: right;
+    }
+
+}
+
+
+
+.break-2{
+    height: 2rem;
+}

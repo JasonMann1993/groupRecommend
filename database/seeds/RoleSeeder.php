@@ -7,7 +7,7 @@ use App\Models\Role;
 class RoleSeeder extends Seeder
 {
     public $roles = [
-        ['name' => 'developer', 'display_name' => '开发者'],
+        ['name' => 'developer'],
 //        ['name' => 'admin', 'display_name' => '管理员'],
 //        ['name' => 'shop', 'display_name' => '商家'],
 //        ['name' => 'partner', 'display_name' => '合伙人'],
