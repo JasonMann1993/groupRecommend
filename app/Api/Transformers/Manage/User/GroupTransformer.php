@@ -28,8 +28,15 @@ class GroupTransformer extends BaseTransformer
     public function transInfo(Group $group)
     {
         $pivotBusinessId = [];
-        foreach($group->businesses as $business){
-            $pivotBusinessId[] = $business->id;
+        $businessInfo = [];
+        if($group->businesses){
+            foreach($group->businesses as $business){
+                $pivotBusinessId[] = $business->id;
+                $businessInfo[] = [
+                    'name' => $business['name'],
+                    'id'   => $business['id']
+                ];
+            }
         }
         return [
             'id'=>$group->id,
@@ -41,6 +48,7 @@ class GroupTransformer extends BaseTransformer
             'longitude'=>$group->longitude,
             'wx'=>$group->wx,
             'ids'=>$pivotBusinessId,
+            'businesses'=>$businessInfo,
             'logo'=>$group->logo,
             'logo_url'=>get_upload_url($group->logo),
             'qr_code'=>$group->qr_code,
