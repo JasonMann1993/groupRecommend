@@ -4,7 +4,7 @@ namespace App\Api\Mobile\Requests;
 
 use Dingo\Api\Http\FormRequest;
 
-class IndexRequest extends FormRequest
+class MemberRequest extends FormRequest
 {
     public function authorize()
     {
@@ -24,11 +24,10 @@ class IndexRequest extends FormRequest
         return get_request_rules($this, $commons);
     }
 
-    public function indexRules()
+    public function infoRules()
     {
         return [
-            'longitude' => 'required',
-            'latitude' => 'required'
+            'code'=>'required'
         ];
     }
 

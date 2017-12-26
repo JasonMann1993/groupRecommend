@@ -226,7 +226,7 @@ function getImgAttribute($img)
     return $img;
 }
 
-function C($key, $isvalue, $default = null)
+function C($key, $isvalue = 0, $default = null)
 {
     static $configs;
     if(!$configs) {

@@ -3,6 +3,12 @@
 namespace App\Api\Mobile\Controllers;
 
 
+use App\Api\Mobile\Controllers\Common\ErrorCode;
+use App\Api\Mobile\Controllers\Common\WXBizDataCrypt;
+use App\Api\Mobile\Requests\MemberRequest;
+use App\Models\Member;
+use GuzzleHttp\Client;
+
 class MemberController extends BaseController
 {
     /**
@@ -12,14 +18,14 @@ class MemberController extends BaseController
     public function info(MemberRequest $request)
     {
         //  获取openid 和 session_key
-        $appId = C('appid');
-        $appSecret = C('appsecret');
+        $appId = C('appid', 1);
+        $appSecret = C('appsecret', 1);
         if(empty($appId) || empty($appSecret))
             return $this->response->error('配置信息错误', 403);
         $url = 'https://api.weixin.qq.com/sns/jscode2session?';
         $url .= http_build_query([
-            'appid' => $appId->value,
-            'secret' => $appSecret->value,
+            'appid' => $appId,
+            'secret' => $appSecret,
             'js_code' => $request->get('code'),
             'grant_type' => 'authorization_code'
         ]);
@@ -33,7 +39,7 @@ class MemberController extends BaseController
         $sessionKey = $userRes->get('session_key');
         $encryptedData = $request->get('encryptedData');
         $iv = $request->get('iv');
-        $pc = new WXBizDataCrypt($appId->value, $sessionKey);
+        $pc = new WXBizDataCrypt($appId, $sessionKey);
         $errCode = $pc->decryptData($encryptedData, $iv, $data );
         if($errCode!=0){
             return $this->response->error(ErrorCode::errMessage($errCode),422);
@@ -45,7 +51,7 @@ class MemberController extends BaseController
             if(!$member){
                 $member = new Member();
                 $member->openid = $data->get('openId');
-                $member->nickname = $data->get('nickName');
+                $member->name = $data->get('nickName');
                 $member->avatar = $data->get('avatarUrl');
                 $member->unionid = $data->get('unionId');
                 $member->save();
