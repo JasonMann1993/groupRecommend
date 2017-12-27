@@ -34,10 +34,6 @@
                 rules: {
                     name: [
                         {required: true, message: '请输入名称', trigger: 'blur'},
-                        {max: 15, message: '长度在 20 个字符以内', trigger: 'blur'}
-                    ],
-                    coupon_id: [
-                        {required: true, message: '请输入优惠券ID', trigger: 'blur'},
                     ],
                 },
                 buttonLoading: false,

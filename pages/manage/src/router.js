@@ -12,6 +12,7 @@ import base_login from '@/pages/base/login'
 // User
 import user_index from '@/pages/user/index'
 import group_index from '@/pages/group'
+import shop_index from '@/pages/shop'
 
 
 
@@ -28,8 +29,9 @@ const routes = [
             {path: '', component: home_index},
             {path: 'menus', component: home_menu},
             // User
-            {path: 'user', component: user_index},
+            {path: 'user/member', component: user_index},
             {path: 'user/group', component: group_index},
+            {path: 'user/business', component: shop_index},
             // banner
             {path: 'home/banner', component: home_banner},
 

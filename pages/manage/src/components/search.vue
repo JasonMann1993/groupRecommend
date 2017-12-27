@@ -4,7 +4,7 @@
             <h3 v-text="title"></h3>
         </div>
         <div>
-            <el-form :inline="true" :model="search">
+            <el-form :inline="true" :model="search" @submit.native="doSearch">
                 <slot></slot>
                 <el-form-item>
                     <el-button type="primary" @click="doSearch" icon="el-icon-search">确定
@@ -35,6 +35,7 @@
                     this.load()
                 else
                     this.$router.push({query: this.search})
+                event.preventDefault();
             }
         }
     }
