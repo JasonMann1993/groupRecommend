@@ -31,4 +31,11 @@ class BannerRequest extends FormRequest
         ];
     }
 
+    public function infoRules()
+    {
+        return [
+            'id' => 'required|exists:banners,id'
+        ];
+    }
+
 }
