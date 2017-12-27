@@ -14,4 +14,9 @@ class Business extends Model
     {
         return $this->belongsToMany(Group::class,'business_groups','business_id','group_id');
     }
+
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
+    }
 }

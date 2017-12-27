@@ -40,6 +40,7 @@ class BusinessTransformer extends BaseTransformer
             'talk'=>$business->talk,
             'star'=>$business->star,
             'member_id'=>$business->member_id,
+            'member_name'=>$business->member['name'],
             'order'=>$business->order,
         ];
     }
