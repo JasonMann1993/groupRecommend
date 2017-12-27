@@ -16,8 +16,10 @@ const api = {
         banner: '/manage/home/banner',
         upload: env.API_BASE_URL + '/manage/upload',
         group: '/manage/user/group',
+        shop: '/manage/user/business',
         group_search: '/manage/user/group/search',
         shop_search: '/manage/user/business/search',
+        user_search: '/manage/user/member/search',
 
         map_key: '/manage/map_key'
     },

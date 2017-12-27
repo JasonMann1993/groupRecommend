@@ -52,7 +52,7 @@ class MemberTransformer extends BaseTransformer
     {
         return [
             'id'=>$member->id,
-            'name'=>$member->name,
+            'value'=>$member->name,
         ];
     }
 

@@ -7,7 +7,7 @@
             <el-form-item label="群聊描述" prop="desc">
                 <el-input v-model="post.desc"></el-input>
             </el-form-item>
-            <el-form-item label="群聊地址" prop="address" v-if="post.address && mapKey && mapUrl">
+            <el-form-item label="群聊地址" prop="address" v-if="mapKey && mapUrl">
                 <el-input v-model="post.address" disabled=""></el-input>
                 <iframe allow="geolocation" width="100%" height="600" frameborder="0" :src="mapUrl">
                 </iframe>
@@ -52,7 +52,9 @@
                     1: '用户',
                     2: '商家',
                 },
-                post: {},
+                post: {
+                    address: ''
+                },
                 rules: {
                     name: [
                         {required: true, message: '请输入名称', trigger: 'blur'},
@@ -69,8 +71,8 @@
         computed: {
             mapUrl() {
                 let url = "https://apis.map.qq.com/tools/locpicker?search=1&type=1&key=" + this.mapKey + "&referer=myapp"
-                if (this.address.longitude && this.address.latitude)
-                    url += '&coord=' + this.address.longitude + ',' + this.address.latitude
+                // if (this.address.longitude && this.address.latitude)
+                //     url += '&coord=' + this.address.longitude + ',' + this.address.latitude
                 return url
             }
         },
@@ -84,30 +86,16 @@
         },
         methods: {
             async doLoad() {
+                this.searchShop('')
                 await this.doResetForm()
-                this.getInfo()
                 this.getMap()
-            },
-            getInfo() {
-                this.pageLoading = true
-                this.$request.get(this.$url.home.group + '/' + this.id).then(res => {
-                    this.pageLoading = false
-                    this.post = res.data.data
-                    this.shopLists = this.post.businesses
-                    this.address = {
-                        latitude: res.data.data.latitude,
-                        longitude: res.data.data.longitude
-                    }
-                }).catch(error => {
-                    this.pageLoading = false
-                });
             },
             onSubmit() {
                 this.doValidate(() => {
                     this.buttonLoading = true
-                    this.$request.put(this.$url.home.group + '/' + this.id, this.post).then(res => {
+                    this.$request.post(this.$url.home.group, this.post).then(res => {
                         this.buttonLoading = false
-                        this.$notify({title: '编辑成功', type: 'success'});
+                        this.$notify({title: '添加成功', type: 'success'});
 
                         this.$emit('success')
                         this.$emit('close')
