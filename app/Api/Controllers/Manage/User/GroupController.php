@@ -65,7 +65,7 @@ class GroupController extends BaseController
         $group = Group::where('id', $id)->first();
         if(!$group)
             return $this->response->errorNotFound();
-        $data = $request->except('token','business_ids');
+        $data = $request->except('token','business_ids','businesses');
         foreach($data as $k=>$v){
             $group->{$k} = $v;
         }
