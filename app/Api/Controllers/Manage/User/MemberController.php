@@ -129,4 +129,11 @@ class MemberController extends BaseController
 
         return $this->response->noContent();
     }
+
+    public function search(MemberRequest $request)
+    {
+        $keyword = $request->get('keyword');
+        $lists = Member::where('name','like','%'.$keyword.'%')->get();
+        return $this->response->collection($lists,new MemberTransformer('search'));
+    }
 }

@@ -4,12 +4,12 @@
             <page-info>
                 <div slot="title" v-text="title"></div>
                 <el-button type="primary" size="small" icon="el-icon-plus" plain @click="action.add.show = true">
-                    添加群
+                    添加商家
                 </el-button>
             </page-info>
             <search :search="search" :load="doLoad">
                 <el-form-item label="关键字" label-width="250">
-                    <el-input v-model="search.keyword" placeholder="群名称/ID"></el-input>
+                    <el-input v-model="search.keyword" placeholder="名称/ID"></el-input>
                 </el-form-item>
             </search>
             <div class="break-2"></div>
@@ -17,20 +17,25 @@
                 <template>
                     <el-table :data="lists" key="user" v-loading="loading">
                         <el-table-column prop="id" label="ID" width="100"></el-table-column>
-                        <el-table-column prop="name" label="姓名"></el-table-column>
+                        <el-table-column prop="name" label="商家名"></el-table-column>
                         <el-table-column prop="logo" label="LOGO">
                             <template slot-scope="scope">
                                 <img :src="scope.row.logo" alt="" class="user-avatar" width="50">
                             </template>
                         </el-table-column>
-                        <el-table-column prop="desc" label="群聊描述"></el-table-column>
-                        <el-table-column prop="address" label="群地址"></el-table-column>
+                        <el-table-column prop="desc" label="描述"></el-table-column>
+                        <el-table-column prop="address" label="地址"></el-table-column>
+                        <el-table-column prop="talk" label="商家洽谈">
+                            <template slot-scope="scope">
+                                <span v-text="talkText[scope.row.talk]"></span>
+                            </template>
+                        </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="scope">
                                 <el-tooltip content="编辑">
                                     <el-button icon="el-icon-edit" size="mini" @click="action.edit.id = scope.row.id,action.edit.show = true"></el-button>
                                 </el-tooltip>
-                                <button-delete :url="$url.home.group + '/' + scope.row.id " @success="doLoad"></button-delete>
+                                <button-delete :url="$url.home.shop + '/' + scope.row.id " @success="doLoad"></button-delete>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -70,15 +75,15 @@
                         show: false,
                     }
                 },
-                title: '微信群列表',
+                title: '商家列表',
                 showDelete: false,
                 search: {},
                 pages: {},
                 lists: [],
                 loading: false,
-                typeText: {
-                    1: '用户',
-                    2: '商家',
+                talkText: {
+                    1: '已洽谈',
+                    2: '未洽谈',
                 }
             };
         },
@@ -95,7 +100,7 @@
             },
             getLists() {
                 this.loading = true, this.lists = []
-                this.$request.get(this.$url.home.group, {params: this.search}).then(res => {
+                this.$request.get(this.$url.home.shop, {params: this.search}).then(res => {
                     this.lists = res.data.data
                     this.pages = res.data.meta.pagination
                     this.loading = false

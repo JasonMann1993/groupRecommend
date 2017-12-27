@@ -35,7 +35,7 @@ class BusinessController extends BaseController
 
     public function store(BusinessRequest $request)
     {
-        $data = $request->except('token');
+        $data = $request->only('name','desc','address','latitude','longitude','talk','member_id','logo','star','order');
         $member = Member::find($data['member_id']);
         $business = new Business();
         \DB::beginTransaction();
