@@ -48,5 +48,13 @@ class MemberTransformer extends BaseTransformer
         ];
     }
 
+    public function transSearch(Member $member)
+    {
+        return [
+            'id'=>$member->id,
+            'name'=>$member->name,
+        ];
+    }
+
 
 }

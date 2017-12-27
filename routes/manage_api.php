@@ -26,6 +26,7 @@ $api->version('v1', ['prefix' => '/api/manage', 'namespace' => 'App\Api\Controll
             # /manage/user
             $api->group(['prefix' => 'user'], function ($api) {
                 #微信用户
+                $api->get('member/search','MemberController@search');
                 $api->resource('member', 'MemberController');
                 #拉黑
                 $api->patch('member/{id}/block', 'MemberController@upBlock');
