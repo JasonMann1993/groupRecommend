@@ -34,7 +34,7 @@ class GroupController extends BaseController
 
     public function store(GroupRequest $request)
     {
-        $data = $request->except('token','business_ids');
+        $data = $request->only('master','name', 'desc', 'address', 'latitude', 'longitude', 'wx', 'logo', 'qr_code', 'order');
         $group = new Group();
         foreach($data as $k=>$v){
             $group->{$k} = $v;
@@ -65,7 +65,7 @@ class GroupController extends BaseController
         $group = Group::where('id', $id)->first();
         if(!$group)
             return $this->response->errorNotFound();
-        $data = $request->except('token','business_ids','businesses');
+        $data = $request->only('master','name', 'desc', 'address', 'latitude', 'longitude', 'wx', 'logo', 'qr_code', 'order');
         foreach($data as $k=>$v){
             $group->{$k} = $v;
         }
