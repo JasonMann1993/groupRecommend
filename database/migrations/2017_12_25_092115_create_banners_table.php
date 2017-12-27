@@ -17,7 +17,7 @@ class CreateBannersTable extends Migration
             $table->increments('id');
             $table->string('name')->default('')->comment('名称');
             $table->string('picture')->default('')->comment('图片');
-            $table->string('content')->default('')->comment('内容');
+            $table->text('content')->nullable()->comment('内容');
             $table->tinyInteger('order')->default(0)->comment('排序');
             $table->tinyInteger('show')->default(1)->comment('状态: 1:显示,2:隐藏');
             $table->softDeletes();
