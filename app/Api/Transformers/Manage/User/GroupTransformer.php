@@ -54,6 +54,14 @@ class GroupTransformer extends BaseTransformer
             'qr_code'=>$group->qr_code,
             'qr_code_url'=>get_upload_url($group->qr_code),
             'order'=>$group->order,
+            'district_a'=>$group->district_a,
+            'district_b'=>$group->district_b,
+            'district_c'=>$group->district_c,
+            'district_d'=>$group->district_d,
+            'ratio_a'=>$group->ratio_a,
+            'ratio_b'=>$group->ratio_b,
+            'ratio_c'=>$group->ratio_c,
+            'ratio_d'=>$group->ratio_d,
             ];
     }
 
