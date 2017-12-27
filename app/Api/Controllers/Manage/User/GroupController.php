@@ -35,6 +35,14 @@ class GroupController extends BaseController
     public function store(GroupRequest $request)
     {
         $data = $request->only('master','name', 'desc', 'address', 'latitude', 'longitude', 'wx', 'logo', 'qr_code', 'order');
+        $data['ratio_a'] = $request->get('ratio_a')?:0;
+        $data['ratio_b'] = $request->get('ratio_b')?:0;
+        $data['ratio_c'] = $request->get('ratio_c')?:0;
+        $data['ratio_d'] = $request->get('ratio_d')?:0;
+        $data['district_a'] = $request->get('district_a','');
+        $data['district_b'] = $request->get('district_b','');
+        $data['district_c'] = $request->get('district_c','');
+        $data['district_d'] = $request->get('district_d','');
         $group = new Group();
         foreach($data as $k=>$v){
             $group->{$k} = $v;
@@ -66,6 +74,14 @@ class GroupController extends BaseController
         if(!$group)
             return $this->response->errorNotFound();
         $data = $request->only('master','name', 'desc', 'address', 'latitude', 'longitude', 'wx', 'logo', 'qr_code', 'order');
+        $data['ratio_a'] = $request->get('ratio_a')?:0;
+        $data['ratio_b'] = $request->get('ratio_b')?:0;
+        $data['ratio_c'] = $request->get('ratio_c')?:0;
+        $data['ratio_d'] = $request->get('ratio_d')?:0;
+        $data['district_a'] = $request->get('district_a','');
+        $data['district_b'] = $request->get('district_b','');
+        $data['district_c'] = $request->get('district_c','');
+        $data['district_d'] = $request->get('district_d','');
         foreach($data as $k=>$v){
             $group->{$k} = $v;
         }

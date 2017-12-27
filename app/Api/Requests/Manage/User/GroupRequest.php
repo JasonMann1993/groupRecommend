@@ -27,6 +27,10 @@ class GroupRequest extends BaseRequest
             'qr_code'=>'required',
             'order'=>'required|numeric',
             'business_ids'=>'required|array',
+            'ratio_a'=>'numeric|min:0|max:1',
+            'ratio_b'=>'numeric|min:0|max:1',
+            'ratio_c'=>'numeric|min:0|max:1',
+            'ratio_d'=>'numeric|min:0|max:1',
         ];
     }
 
@@ -44,6 +48,10 @@ class GroupRequest extends BaseRequest
             'qr_code'=>'required',
             'order'=>'required|numeric',
             'business_ids'=>'required|array',
+            'ratio_a'=>'numeric|min:0|max:1',
+            'ratio_b'=>'numeric|min:0|max:1',
+            'ratio_c'=>'numeric|min:0|max:1',
+            'ratio_d'=>'numeric|min:0|max:1',
         ];
     }
 }
