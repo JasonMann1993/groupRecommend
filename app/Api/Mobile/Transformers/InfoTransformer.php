@@ -41,6 +41,7 @@ class InfoTransformer extends TransformerAbstract
 
         # 群成员分布
         $d = ['a', 'b', 'c', 'd'];
+        $plots = [];
         foreach($d as $k => $v){
             $name = 'district_' . $v;
             $value = 'ratio_' . $v;
