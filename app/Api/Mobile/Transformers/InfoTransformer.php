@@ -38,6 +38,18 @@ class InfoTransformer extends TransformerAbstract
             }
         }
         $info['memberNum'] = $item->members->count();
+
+        # 群成员分布
+        $d = ['a', 'b', 'c', 'd'];
+        foreach($d as $k => $v){
+            $name = 'district_' . $v;
+            $value = 'ratio_' . $v;
+            $plots[] = [
+                'name' => $item->$name,
+                'data' => $item->$value * 100
+            ];
+        }
+        $info['plots'] = $plots;
         return $info;
     }
 }
