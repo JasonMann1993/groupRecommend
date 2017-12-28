@@ -12,6 +12,20 @@
                 <iframe allow="geolocation" width="100%" height="600" frameborder="0" :src="mapUrl">
                 </iframe>
             </el-form-item>
+            <el-form-item label="成员分布">
+                <el-row :gutter="10" style="margin: 0">
+                    <el-col :span="6"> <el-input v-model="post.district_a"></el-input> </el-col>
+                    <el-col :span="6"> <el-input v-model="post.district_b"></el-input> </el-col>
+                    <el-col :span="6"> <el-input v-model="post.district_c"></el-input> </el-col>
+                    <el-col :span="6"> <el-input v-model="post.district_d"></el-input> </el-col>
+                </el-row>
+                <el-row :gutter="10" style="margin: 0;margin-top: 20px">
+                    <el-col :span="6"> <el-input v-model="post.ratio_a"></el-input> </el-col>
+                    <el-col :span="6"> <el-input v-model="post.ratio_b"></el-input> </el-col>
+                    <el-col :span="6"> <el-input v-model="post.ratio_c"></el-input> </el-col>
+                    <el-col :span="6"> <el-input v-model="post.ratio_d"></el-input> </el-col>
+                </el-row>
+            </el-form-item>
             <el-form-item label="群主微信昵称" prop="master">
                 <el-input v-model="post.master"></el-input>
             </el-form-item>
