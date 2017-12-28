@@ -46,7 +46,7 @@ class InfoTransformer extends TransformerAbstract
             $value = 'ratio_' . $v;
             $plots[] = [
                 'name' => $item->$name,
-                'value' => $item->$value * 100
+                'data' => $item->$value * 100
             ];
         }
         $info['plots'] = $plots;
