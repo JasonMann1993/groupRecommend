@@ -76,7 +76,7 @@ class MemberController extends BaseController
         $user->longitude = $request->get('longitude');
         $user->active = $request->get('active');
         $user->block = $request->get('block');
-        $user->order = $request->get('order');
+        $user->order = $request->get('order',1);
         try {
             $user->save();
             $user->groups()->sync($group);

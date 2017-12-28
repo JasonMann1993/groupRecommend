@@ -30,7 +30,6 @@ class BusinessRequest extends BaseRequest
                 ],
             'logo'=>'required',
             'star'=>['required',Rule::in(1,2,3,4,5)],
-            'order'=>'required|numeric',
         ];
     }
 
@@ -50,7 +49,6 @@ class BusinessRequest extends BaseRequest
             ],
             'logo'=>'required',
             'star'=>['required',Rule::in(1,2,3,4,5)],
-            'order'=>'required|numeric',
         ];
     }
 }

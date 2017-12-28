@@ -24,7 +24,6 @@ class MemberRequest extends BaseRequest
             'longitude'=>'required|numeric',
             'group'=>'required|array',
             'active'=>'required',
-            'order'=>'required',
             'block'=>'required|boolean',
         ];
     }

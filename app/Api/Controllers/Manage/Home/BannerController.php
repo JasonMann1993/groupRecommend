@@ -52,7 +52,7 @@ class BannerController extends BaseController
         if($request->get('picture'))
         $info->picture = $request->get('picture');
         $info->show = $request->get('show');
-        $info->order = $request->get('order');
+        $info->order = $request->get('order',0);
         $info->content = $request->get('content','');
         try {
             $info->save();

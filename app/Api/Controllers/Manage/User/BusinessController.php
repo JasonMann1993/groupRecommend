@@ -35,7 +35,8 @@ class BusinessController extends BaseController
 
     public function store(BusinessRequest $request)
     {
-        $data = $request->only('name','desc','address','latitude','longitude','talk','member_id','logo','star','order');
+        $data = $request->only('name','desc','address','latitude','longitude','talk','member_id','logo','star');
+        $data['order'] = $request->get('order',1);
         $member = Member::find($data['member_id']);
         $business = new Business();
         \DB::beginTransaction();
@@ -73,7 +74,7 @@ class BusinessController extends BaseController
         $info->star = $request->get('star');
         $info->member_id = $request->get('member_id');
         $info->logo = $request->get('logo');
-        $info->order = $request->get('order');
+        $info->order = $request->get('order',1);
 
         $member = Member::find($request->get('member_id'));
         $member->type = 2;
