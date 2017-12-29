@@ -6,11 +6,12 @@ use App\Api\Mobile\Requests\IndexRequest;
 use App\Api\Mobile\Transformers\IndexTransformer;
 use App\Api\Mobile\Transformers\InfoTransformer;
 use App\Models\Group;
+use App\Models\MemberPlotGroup;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class IndexController extends BaseController
 {
-    # 首页
+    ## 首页
     public function index(IndexRequest $request)
     {
         $lng = $request->get('longitude');
@@ -30,5 +31,26 @@ class IndexController extends BaseController
     {
         $group = Group::with('businesses')->with('members')->find($id);
         return $this->response->item($group, new InfoTransformer());
+    }
+
+    ## 将用户归类小区
+    public function plotMembers(IndexRequest $request)
+    {
+        $id = $request->get('id');
+        $memberId = $request->get('member_id');
+        $lng = $request->get('longitude');
+        $lat = $request->get('latitude');
+        $mpg = MemberPlotGroup::where(['group_id' => $id, 'member_id' => $memberId])->first();
+        if(!$mpg){
+            $a = ['a', 'b', 'c'];
+            $groupIns = Group::find($id);
+            foreach($a as $k => $v){
+                $lngflag = 'longitude_' . $v;
+                $latflag = 'latitude_' . $v;
+                $arr[$v] = get_lng_and_lat_distance($groupIns->$latflag, $groupIns->$lngflag, $lat, $lng);
+            }
+            $temNum = 0;
+
+        }
     }
 }
