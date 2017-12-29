@@ -3,6 +3,7 @@
 namespace App\Api\Mobile\Transformers;
 
 use App\Models\Group;
+use App\Models\MemberPlotGroup;
 use League\Fractal\TransformerAbstract;
 
 class InfoTransformer extends TransformerAbstract
@@ -42,10 +43,14 @@ class InfoTransformer extends TransformerAbstract
         $plots = [];
         foreach($d as $k => $v){
             $name = 'district_' . $v;
-            $value = 'ratio_' . $v;
+            //$value = 'ratio_' . $v;
+            $lngflag = 'longitude_' . $v;
+            $latflag = 'latitude_' . $v;
             $plots[] = [
                 'name' => $item->$name,
-                'data' => $item->$value * 100
+                //'data' => $item->$value * 100, # 群各小区人数分布
+                'data' => app(MemberPlotGroup::class)->plotDistribute($item->id, $v), # 群各小区人数分布
+                'distance' => ($v == 'd') ? '2.5km' : get_distance_text(get_lng_and_lat_distance($item->$latflag, $item->$lngflag, $lat, $lng))
             ];
         }
         $info['plots'] = $plots;

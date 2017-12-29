@@ -29,7 +29,6 @@ class IndexController extends BaseController
     public function info(IndexRequest $request, $id)
     {
         $group = Group::with('businesses')->with('members')->find($id);
-        //dd($group->toArray());
         return $this->response->item($group, new InfoTransformer());
     }
 }
