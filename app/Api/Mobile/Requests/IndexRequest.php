@@ -35,7 +35,8 @@ class IndexRequest extends FormRequest
     public function infoRules()
     {
         return [
-
+            'longitude' => 'required',
+            'latitude' => 'required'
         ];
     }
 

@@ -27,7 +27,9 @@ class MemberRequest extends FormRequest
     public function infoRules()
     {
         return [
-            'code'=>'required'
+            'code' => 'required',
+            'longitude' => 'required',
+            'latitude' => 'required'
         ];
     }
 
