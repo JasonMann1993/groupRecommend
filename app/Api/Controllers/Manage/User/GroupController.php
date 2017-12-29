@@ -44,6 +44,12 @@ class GroupController extends BaseController
         $data['district_b'] = $request->get('district_b','');
         $data['district_c'] = $request->get('district_c','');
         $data['district_d'] = $request->get('district_d','');
+        $data['latitude_a'] = $request->get('latitude_a',null);
+        $data['latitude_b'] = $request->get('latitude_a',null);
+        $data['latitude_c'] = $request->get('latitude_a',null);
+        $data['longitude_a'] = $request->get('longitude_a',null);
+        $data['longitude_b'] = $request->get('longitude_b',null);
+        $data['longitude_c'] = $request->get('longitude_c',null);
         $group = new Group();
         foreach($data as $k=>$v){
             $group->{$k} = $v;
@@ -84,6 +90,12 @@ class GroupController extends BaseController
         $data['district_b'] = $request->get('district_b','');
         $data['district_c'] = $request->get('district_c','');
         $data['district_d'] = $request->get('district_d','');
+        $data['latitude_a'] = $request->get('latitude_a',null);
+        $data['latitude_b'] = $request->get('latitude_a',null);
+        $data['latitude_c'] = $request->get('latitude_a',null);
+        $data['longitude_a'] = $request->get('longitude_a',null);
+        $data['longitude_b'] = $request->get('longitude_b',null);
+        $data['longitude_c'] = $request->get('longitude_c',null);
         foreach($data as $k=>$v){
             $group->{$k} = $v;
         }

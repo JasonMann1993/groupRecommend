@@ -62,6 +62,12 @@ class GroupTransformer extends BaseTransformer
             'ratio_b'=>$group->ratio_b,
             'ratio_c'=>$group->ratio_c,
             'ratio_d'=>$group->ratio_d,
+            'latitude_a'=>$group->latitude_a,
+            'longitude_a'=>$group->longitude_a,
+            'latitude_b'=>$group->latitude_b,
+            'longitude_b'=>$group->longitude_b,
+            'latitude_c'=>$group->latitude_c,
+            'longitude_c'=>$group->longitude_c,
             ];
     }
 
