@@ -27,7 +27,6 @@ class BannerRequest extends BaseRequest
     {
         return $this->getCommon([
             'show' => 'required|boolean',
-            'order' => 'required',
         ]);
     }
 

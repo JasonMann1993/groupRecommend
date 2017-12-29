@@ -34,7 +34,8 @@ class GroupController extends BaseController
 
     public function store(GroupRequest $request)
     {
-        $data = $request->only('master','name', 'desc', 'address', 'latitude', 'longitude', 'wx', 'logo', 'qr_code', 'order');
+        $data = $request->only('master','name', 'desc', 'address', 'latitude', 'longitude', 'wx', 'logo', 'qr_code');
+        $data['order'] = $request->get('order',1);
         $data['ratio_a'] = $request->get('ratio_a')?:0;
         $data['ratio_b'] = $request->get('ratio_b')?:0;
         $data['ratio_c'] = $request->get('ratio_c')?:0;
@@ -73,7 +74,8 @@ class GroupController extends BaseController
         $group = Group::where('id', $id)->first();
         if(!$group)
             return $this->response->errorNotFound();
-        $data = $request->only('master','name', 'desc', 'address', 'latitude', 'longitude', 'wx', 'logo', 'qr_code', 'order');
+        $data = $request->only('master','name', 'desc', 'address', 'latitude', 'longitude', 'wx', 'logo', 'qr_code');
+        $data['order'] = $request->get('order',1);
         $data['ratio_a'] = $request->get('ratio_a')?:0;
         $data['ratio_b'] = $request->get('ratio_b')?:0;
         $data['ratio_c'] = $request->get('ratio_c')?:0;
