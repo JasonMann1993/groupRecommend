@@ -47,10 +47,10 @@ class InfoTransformer extends TransformerAbstract
             $lngflag = 'longitude_' . $v;
             $latflag = 'latitude_' . $v;
             $plots[] = [
-                'name' => $item->$name,
+                'name' => $item->$name . ' (' . (($v == 'd') ? (rand(20,30)/10) . 'km' : get_distance_text(get_lng_and_lat_distance($item->$latflag, $item->$lngflag, $lat, $lng))) . ')',
                 //'data' => $item->$value * 100, # 群各小区人数分布
                 'data' => floatval(app(MemberPlotGroup::class)->plotDistribute($item->id, $v)), # 群各小区人数分布
-                'distance' => ($v == 'd') ? (rand(20,30)/10) . 'km' : get_distance_text(get_lng_and_lat_distance($item->$latflag, $item->$lngflag, $lat, $lng))
+                //'distance' => ($v == 'd') ? (rand(20,30)/10) . 'km' : get_distance_text(get_lng_and_lat_distance($item->$latflag, $item->$lngflag, $lat, $lng))
             ];
         }
         $info['plots'] = $plots;

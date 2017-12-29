@@ -49,8 +49,25 @@ class IndexController extends BaseController
                 $latflag = 'latitude_' . $v;
                 $arr[$v] = get_lng_and_lat_distance($groupIns->$latflag, $groupIns->$lngflag, $lat, $lng);
             }
-            $temNum = 0;
-
+            $temNum = 100000;
+            foreach($arr as $k => $v){
+                if($k == 'a'){
+                    $temNum = $v;
+                }
+                if($v < $temNum){
+                    $temNum = $v;
+                }
+            }
+            if($temNum > 2500){
+                $flag = 'd';
+            }else{
+                foreach($arr as $k => $v){
+                    if($temNum == $v){
+                        $flag = $k;
+                    }
+                }
+            }
+            return $flag;
         }
     }
 }
