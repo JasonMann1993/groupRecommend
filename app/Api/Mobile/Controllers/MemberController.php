@@ -54,6 +54,9 @@ class MemberController extends BaseController
                 $member->name = $data->get('nickName');
                 $member->avatar = $data->get('avatarUrl');
                 $member->unionid = $data->get('unionId');
+                $member->gender = $data->get('gender');
+                $member->longitude = $request->get('longitude');
+                $member->latitude = $request->get('latitude');
                 $member->save();
             }else{
                 if(!$member->unionid){
