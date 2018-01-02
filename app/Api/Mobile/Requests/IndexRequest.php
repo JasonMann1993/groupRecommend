@@ -23,7 +23,7 @@ class IndexRequest extends FormRequest
         ];
         return get_request_rules($this, $commons);
     }
-
+    ## 首页列表
     public function indexRules()
     {
         return [
@@ -31,7 +31,7 @@ class IndexRequest extends FormRequest
             'latitude' => 'required'
         ];
     }
-
+    ## 群推荐页
     public function infoRules()
     {
         return [
@@ -40,4 +40,12 @@ class IndexRequest extends FormRequest
         ];
     }
 
+    ## 将用户归类小区
+    public function plotMemberRules()
+    {
+        return [
+            'id' => 'required,exists:groups,id',
+            'member_id' => 'required,exists:members,id'
+        ];
+    }
 }
