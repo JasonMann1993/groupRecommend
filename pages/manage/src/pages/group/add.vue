@@ -7,23 +7,24 @@
             <el-form-item label="群聊描述" prop="desc">
                 <el-input v-model="post.desc"></el-input>
             </el-form-item>
-            <el-form-item label="群聊地址" prop="address" v-if="mapKey && mapUrl">
+            <el-form-item label="群聊地址" prop="address">
                 <el-input v-model="post.address" disabled=""></el-input>
-                <iframe allow="geolocation" width="100%" height="600" frameborder="0" :src="mapUrl">
-                </iframe>
+                <el-button @click="chooseAddress = true, chooseAddressType = 'add'">选择</el-button>
             </el-form-item>
             <el-form-item label="成员分布">
                 <el-row :gutter="10" style="margin: 0">
-                    <el-col :span="6"> <el-input v-model="post.district_a"></el-input> </el-col>
-                    <el-col :span="6"> <el-input v-model="post.district_b"></el-input> </el-col>
-                    <el-col :span="6"> <el-input v-model="post.district_c"></el-input> </el-col>
-                    <el-col :span="6"> <el-input v-model="post.district_d"></el-input> </el-col>
-                </el-row>
-                <el-row :gutter="10" style="margin: 0;margin-top: 20px">
-                    <el-col :span="6"> <el-input v-model="post.ratio_a"></el-input> </el-col>
-                    <el-col :span="6"> <el-input v-model="post.ratio_b"></el-input> </el-col>
-                    <el-col :span="6"> <el-input v-model="post.ratio_c"></el-input> </el-col>
-                    <el-col :span="6"> <el-input v-model="post.ratio_d"></el-input> </el-col>
+                    <el-col :span="8">
+                        <el-input v-model="post.district_a" disabled></el-input>
+                        <el-button @click="chooseAddress = true, chooseAddressType = 'a'">选择</el-button>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-input v-model="post.district_b" disabled></el-input>
+                        <el-button @click="chooseAddress = true, chooseAddressType = 'b'">选择</el-button>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-input v-model="post.district_c" disabled></el-input>
+                        <el-button @click="chooseAddress = true, chooseAddressType = 'c'">选择</el-button>
+                    </el-col>
                 </el-row>
             </el-form-item>
             <el-form-item label="群主微信昵称" prop="master">
@@ -52,16 +53,26 @@
         <div slot="footer" class="center">
             <el-button type="primary" @click="onSubmit" :loading="buttonLoading">确定</el-button>
         </div>
+
+        <el-dialog :visible.sync="chooseAddress" append-to-body>
+            <chooseAddress @close="chooseAddress = false" @choose="handleChoose"></chooseAddress>
+        </el-dialog>
     </div>
 </template>
 <script>
+    import CHOOSEADDRESS from './chooseAddress'
 
     export default {
+        components: {
+            'chooseAddress': CHOOSEADDRESS,
+        },
         props: {
             id: Number
         },
         data() {
             return {
+                chooseAddress: false,
+                chooseAddressType: 'a',
                 typeText: {
                     1: '用户',
                     2: '商家',
@@ -82,14 +93,6 @@
                 address: {}
             }
         },
-        computed: {
-            mapUrl() {
-                let url = "https://apis.map.qq.com/tools/locpicker?search=1&type=1&key=" + this.mapKey + "&referer=myapp"
-                // if (this.address.longitude && this.address.latitude)
-                //     url += '&coord=' + this.address.longitude + ',' + this.address.latitude
-                return url
-            }
-        },
         watch: {
             id() {
                 this.doLoad()
@@ -102,7 +105,6 @@
             async doLoad() {
                 this.searchShop('')
                 await this.doResetForm()
-                this.getMap()
             },
             onSubmit() {
                 this.doValidate(() => {
@@ -117,24 +119,6 @@
                         this.buttonLoading = false
                     });
                 })
-            },
-            getMapKey() {
-                this.$request.get(this.$url.home.map_key).then(res => {
-                    this.mapKey = res.data.data
-                })
-            },
-            getMap() {
-                this.getMapKey()
-                window.removeEventListener('message', event => {
-                }, false)
-                window.addEventListener('message', event => {
-                    var loc = event.data;
-                    if (loc && loc.module == 'locationPicker') {
-                        this.post.longitude = loc.latlng.lng
-                        this.post.latitude = loc.latlng.lat
-                        this.post.address = loc.poiaddress
-                    }
-                }, false);
             },
             searchShop(query) {
                 this.searchShopLoading = true;
@@ -166,6 +150,23 @@
             },
             uploadRemoveQrCode(res) {
                 this.post.qr_code = null
+            },
+            handleChoose(data) {
+                if (this.chooseAddressType == 'add') {
+                    this.post.longitude = data.longitude
+                    this.post.latitude = data.latitude
+                    this.post.address = data.address
+                    return;
+                }
+                let varNames = {
+                    district: 'district_' + this.chooseAddressType,
+                    latitude: 'latitude_' + this.chooseAddressType,
+                    longitude: 'longitude_' + this.chooseAddressType,
+                }
+
+                this.post[varNames.district] = data.address
+                this.post[varNames.latitude] = data.latitude
+                this.post[varNames.longitude] = data.longitude
             }
         }
     }
