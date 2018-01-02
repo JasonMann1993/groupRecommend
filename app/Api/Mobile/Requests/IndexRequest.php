@@ -41,11 +41,13 @@ class IndexRequest extends FormRequest
     }
 
     ## 将用户归类小区
-    public function plotMemberRules()
+    public function plotMembersRules()
     {
         return [
-            'id' => 'required,exists:groups,id',
-            'member_id' => 'required,exists:members,id'
+            'id' => 'required|exists:groups,id',
+            'member_id' => 'required|exists:members,id',
+            'longitude' => 'required',
+            'latitude' => 'required',
         ];
     }
 }
