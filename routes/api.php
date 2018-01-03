@@ -23,5 +23,9 @@ $api->version('v1', ['prefix' => '/api', 'namespace' => 'App\Api\Mobile\Controll
     $api->post('member', 'MemberController@info');
     $api->get('info/{id}', 'IndexController@info');
     $api->get('banner/info', 'BannerController@info');
+    $api->get('plotMembers', 'IndexController@plotMembers');
+    $api->post('receiveMsg', 'IndexController@receiveMsg');
+    $api->get('sendMsg', 'IndexController@sendMsg');
+    $api->get('uploadMaterial', 'IndexController@uploadMaterial');
 
 });

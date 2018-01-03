@@ -3,6 +3,8 @@
 namespace App\Api\Mobile\Transformers;
 
 use App\Models\Group;
+use App\Models\MemberPlotGroup;
+use function foo\func;
 use League\Fractal\TransformerAbstract;
 
 class InfoTransformer extends TransformerAbstract
@@ -25,14 +27,17 @@ class InfoTransformer extends TransformerAbstract
         ## 入驻商户
         $info['business'] = [];
         if($item->businesses){
-            foreach ($item->businesses as $v){
+            $businesses = $item->businesses;
+            $businesses->map(function ($v) use ($lat, $lng) {
+                $tmpNum = get_lng_and_lat_distance($v->latitude, $v->longitude, $lat, $lng);
+                $v->distanceNum = $tmpNum;
+                $v->distance = get_distance_text($tmpNum);
+            });
+            $business = $businesses->sortBy('distanceNum');
+            foreach ($business as $v){
                 $info['business'][] = [
                     'logo' => getImgAttribute($v->logo),
-                    'distance' => get_distance_text(
-                        get_lng_and_lat_distance(
-                            $v->latitude, $v->longitude, $lat, $lng
-                        )
-                    )
+                    'distance' => $v->distance
                 ];
             }
         }
@@ -42,10 +47,14 @@ class InfoTransformer extends TransformerAbstract
         $plots = [];
         foreach($d as $k => $v){
             $name = 'district_' . $v;
-            $value = 'ratio_' . $v;
+            //$value = 'ratio_' . $v;
+            $lngflag = 'longitude_' . $v;
+            $latflag = 'latitude_' . $v;
             $plots[] = [
-                'name' => $item->$name,
-                'data' => $item->$value * 100
+                'name' => $item->$name . ' (' . (($v == 'd') ? (rand(20,30)/10) . 'km' : get_distance_text(get_lng_and_lat_distance($item->$latflag, $item->$lngflag, $lat, $lng))) . ')',
+                //'data' => $item->$value * 100, # 群各小区人数分布
+                'data' => floatval(app(MemberPlotGroup::class)->plotDistribute($item->id, $v)), # 群各小区人数分布
+                //'distance' => ($v == 'd') ? (rand(20,30)/10) . 'km' : get_distance_text(get_lng_and_lat_distance($item->$latflag, $item->$lngflag, $lat, $lng))
             ];
         }
         $info['plots'] = $plots;
@@ -53,13 +62,20 @@ class InfoTransformer extends TransformerAbstract
         ## 群成员列表
         $info['members'] = [];
         if($item->members){
-            foreach ($item->members as $v) {
+            $members = $item->members;
+            $members->map(function ($v) use ($lng, $lat) {
+                $tmpNum = get_lng_and_lat_distance($v->latitude, $v->longitude, $lat, $lng);
+                $v->distanceNum = $tmpNum;
+                $v->distance = $v->distance($tmpNum);
+            });
+            $m = $members->sortBy('distanceNum');
+            foreach ($m as $v) {
                 $info['members'][] = [
                     'nickname' => $v->name,
                     'avatar' => $v->avatar,
                     'gender' => $v->gender, # 性别 1:男,2:女
                     'created_at' => $v->formatTime($v->created_at),
-                    'distance' => $v->distance(get_lng_and_lat_distance($lat, $lng, $v->latitude, $v->longitude))
+                    'distance' => $v->distance
                 ];
             }
         }

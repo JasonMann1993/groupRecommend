@@ -10,6 +10,7 @@ class Group extends Model
     //
     use SoftDeletes,Common;
     protected $guarded = [];
+
     public function businesses()
     {
         return $this->belongsToMany(Business::class,'business_groups','group_id','business_id');

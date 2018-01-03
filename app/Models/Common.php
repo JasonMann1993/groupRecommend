@@ -15,7 +15,7 @@ trait Common
      * @param array $where
      * @return bool
      */
-    public function getNearLists($lng, $lat, $where = [] ,$distance = 50000)
+    public function getNearLists($lng, $lat, $where = [] ,$distance = 3000)
     {
         $offsets = get_lng_and_lat_deviation($lng, $lat, $distance);
 
