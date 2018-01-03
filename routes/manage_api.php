@@ -34,6 +34,7 @@ $api->version('v1', ['prefix' => '/api/manage', 'namespace' => 'App\Api\Controll
                 $api->get('info', 'CommonController@info');
 
                 #群管理
+                $api->post('group/test','GroupController@test');
                 $api->get('group/search','GroupController@search');
                 $api->resource('group','GroupController');
                 #商家

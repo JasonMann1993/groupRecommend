@@ -13,6 +13,10 @@ use App\Api\Controllers\Manage\BaseController;
 use App\Api\Requests\Manage\User\GroupRequest;
 use App\Api\TransFormers\Manage\User\GroupTransformer;
 use App\Models\Group;
+use EasyWeChat\Foundation\Application;
+use GuzzleHttp\Client;
+use Illuminate\Http\File;
+use Illuminate\Http\Request;
 
 class GroupController extends BaseController
 {
@@ -45,11 +49,13 @@ class GroupController extends BaseController
         $data['district_c'] = $request->get('district_c','');
         $data['district_d'] = $request->get('district_d','');
         $data['latitude_a'] = $request->get('latitude_a',null);
-        $data['latitude_b'] = $request->get('latitude_a',null);
-        $data['latitude_c'] = $request->get('latitude_a',null);
+        $data['latitude_b'] = $request->get('latitude_b',null);
+        $data['latitude_c'] = $request->get('latitude_c',null);
         $data['longitude_a'] = $request->get('longitude_a',null);
         $data['longitude_b'] = $request->get('longitude_b',null);
         $data['longitude_c'] = $request->get('longitude_c',null);
+        $media = $this->uploadToWX($request->get('qr_code'));
+        $data['media_id'] = $media['media_id'];
         $group = new Group();
         foreach($data as $k=>$v){
             $group->{$k} = $v;
@@ -91,11 +97,13 @@ class GroupController extends BaseController
         $data['district_c'] = $request->get('district_c','');
         $data['district_d'] = $request->get('district_d','');
         $data['latitude_a'] = $request->get('latitude_a',null);
-        $data['latitude_b'] = $request->get('latitude_a',null);
-        $data['latitude_c'] = $request->get('latitude_a',null);
+        $data['latitude_b'] = $request->get('latitude_b',null);
+        $data['latitude_c'] = $request->get('latitude_c',null);
         $data['longitude_a'] = $request->get('longitude_a',null);
         $data['longitude_b'] = $request->get('longitude_b',null);
         $data['longitude_c'] = $request->get('longitude_c',null);
+        $media = $this->uploadToWX($request->get('qr_code'));
+        $data['media_id'] = $media['media_id'];
         foreach($data as $k=>$v){
             $group->{$k} = $v;
         }
@@ -134,5 +142,35 @@ class GroupController extends BaseController
         $keyword = $request->get('keyword');
         $lists = Group::where('name','like','%'.$keyword.'%')->get();
         return $this->response->collection($lists,new GroupTransformer('lists'));
+    }
+
+    public function uploadToWX($image)
+    {
+        $options = [
+            'app_id'=> env('APP_ID'),
+            'secret'=> env('APP_SECRET'),
+        ];
+        $app = new Application($options);
+        $accessToken = $app->access_token;
+        $token = $accessToken->getToken();
+        $client = new Client();
+        $url =  get_upload_url($image);
+        $image = file_get_contents($url);
+        $tmpFile = tempnam('','');
+        file_put_contents($tmpFile,$image);
+        $file = fopen($tmpFile,'r');
+        $r = $client->request('POST', 'https://api.weixin.qq.com/cgi-bin/media/upload?access_token='.$token.'&type=image', [
+             'multipart' =>[
+                 [
+                    'name'      =>  'media',
+                    'contents'  =>  $file,
+                     'filename' =>  'groupQRCode.jpg',
+                ]
+             ]
+        ]);
+        unlink($tmpFile);
+        $content = $r->getBody()->getContents();
+        $content = json_decode($content,true);
+        return $content;
     }
 }
